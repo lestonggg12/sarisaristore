@@ -1,0 +1,62 @@
+/* MODERN BADGES */
+.badge,
+.in-cart-badge,
+.payment-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.in-cart-badge {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  color: white;
+}
+
+.payment-badge.cash {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  color: white;
+}
+
+.payment-badge.gcash,
+.payment-badge.credit {
+  background: linear-gradient(135deg, #1e88e5, #1565c0);
+  color: white;
+}
+
+.badge:hover,
+.in-cart-badge:hover,
+.payment-badge:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.success {
+  background: linear-gradient(135deg, var(--success), var(--success-dark));
+  color: white;
+}
+
+.status-badge.warning {
+  background: linear-gradient(135deg, #ffd600, #ffea00);
+  color: #1a1a2e;
+}
+
+.status-badge.danger {
+  background: linear-gradient(135deg, var(--danger), var(--danger-dark));
+  color: white;
+}

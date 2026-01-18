@@ -1,0 +1,476 @@
+/* ========================================
+   PAGES.CSS - Page Container & Layout
+   ======================================== */
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    /* Transparent background allows the body color to show through */
+    background-color: transparent; 
+    min-height: calc(100vh - 100px);
+}
+
+/* Page Visibility & Animation */
+.page {
+    display: none;
+}
+
+.page.active-page {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Headers - Styled to match the Soft UI design */
+/* This is what will take over once you delete the blue style */
+.page h2, .page h3 {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #5D534A; /* Target UI Brown */
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-align: left; /* No more centering */
+}
+
+/* Dark Mode Overrides */
+body.dark-mode .page-container {
+    background-color: var(--bg-primary-dark, #111827);
+}
+
+body.dark-mode .page h2, 
+body.dark-mode .page h3 {
+    color: var(--text-primary-dark, #f9fafb);
+}
+
+/* Responsive Scaling */
+@media (max-width: 768px) {
+    .page-container {
+        padding: 1rem;
+    }
+    
+    .page h2 {
+        font-size: 1.25rem;
+    }
+}
+/* ========================================
+   PROFIT-CARDS.CSS
+   
+   Beautiful sales cards with integrated 
+   revenue and profit in single cards
+   using autumn leaf color palette
+   ======================================== */
+
+/* ==========================================
+   PERIOD SECTIONS
+   ========================================== */
+
+.period-section {
+    margin-bottom: 35px;
+}
+
+/* ==========================================
+   PROFIT SUMMARY GRID
+   Single cards with revenue + profit integrated
+   ========================================== */
+
+.profit-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+/* ==========================================
+   INDIVIDUAL PROFIT CARD
+   Contains both revenue and profit in one card
+   ========================================== */
+
+.profit-card {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.08),
+        0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 2px solid rgba(93, 83, 74, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+/* Decorative leaf icon in corner */
+.profit-card::before {
+    content: '🍂';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 80px;
+    opacity: 0.08;
+    transform: rotate(15deg);
+    pointer-events: none;
+}
+
+.profit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 30px rgba(0, 0, 0, 0.12),
+        0 2px 6px rgba(0, 0, 0, 0.08);
+    border-color: rgba(93, 83, 74, 0.2);
+}
+
+/* Card heading (e.g., "TODAY'S SALES") */
+.profit-card h3 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #9E9382;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Revenue Section within card */
+.profit-card-revenue {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px dashed rgba(93, 83, 74, 0.15);
+    text-align: center;
+}
+
+.profit-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #9E9382;
+    margin-bottom: 8px;
+}
+
+.profit-amount {
+    font-size: 32px;
+    font-weight: 800;
+    color: #5D534A;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.profit-card small {
+    font-size: 12px;
+    color: #9E9382;
+    font-weight: 500;
+}
+
+/* Profit Section within card */
+.profit-card-profit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(135, 179, 130, 0.12), rgba(135, 179, 130, 0.08));
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 15px;
+}
+
+.profit-card-profit-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #059669;
+    margin-bottom: 4px;
+}
+
+.profit-card-profit-amount {
+    font-size: 24px;
+    font-weight: 800;
+    color: #059669;
+    line-height: 1;
+}
+
+/* ==========================================
+   COLOR-CODED CARDS BY TIME PERIOD
+   Autumn leaf colors from the palette
+   ========================================== */
+
+/* Today's Sales - Light Green (#d4e09b) */
+.profit-card.today {
+    background: linear-gradient(135deg, #d4e09b 0%, #c5d68d 100%);
+    border-color: #c0cf88;
+}
+
+.profit-card.today::before {
+    content: '🍃';
+}
+
+.profit-card.today h3,
+.profit-card.today .profit-card-label,
+.profit-card.today small {
+    color: #4a5a2a;
+}
+
+.profit-card.today .profit-amount {
+    color: #3d4a23;
+}
+
+.profit-card.today .profit-card-profit {
+    background: linear-gradient(135deg, rgba(61, 74, 35, 0.15), rgba(61, 74, 35, 0.08));
+}
+
+.profit-card.today .profit-card-profit-label,
+.profit-card.today .profit-card-profit-amount {
+    color: #2d3a18;
+}
+
+/* Yesterday's Sales - Cream (#f6f4d2) */
+.profit-card.yesterday {
+    background: linear-gradient(135deg, #f6f4d2 0%, #eee9c4 100%);
+    border-color: #e5e0ba;
+}
+
+.profit-card.yesterday::before {
+    content: '🍂';
+}
+
+.profit-card.yesterday h3,
+.profit-card.yesterday .profit-card-label,
+.profit-card.yesterday small {
+    color: #6b6438;
+}
+
+.profit-card.yesterday .profit-amount {
+    color: #5a5230;
+}
+
+.profit-card.yesterday .profit-card-profit {
+    background: linear-gradient(135deg, rgba(90, 82, 48, 0.12), rgba(90, 82, 48, 0.06));
+}
+
+.profit-card.yesterday .profit-card-profit-label,
+.profit-card.yesterday .profit-card-profit-amount {
+    color: #4a4228;
+}
+
+/* This Week's Sales - Sage Green (#cbdfbd) */
+.profit-card.week {
+    background: linear-gradient(135deg, #cbdfbd 0%, #bdd4ae 100%);
+    border-color: #b5cca8;
+}
+
+.profit-card.week::before {
+    content: '🌿';
+}
+
+.profit-card.week h3,
+.profit-card.week .profit-card-label,
+.profit-card.week small {
+    color: #3e5235;
+}
+
+.profit-card.week .profit-amount {
+    color: #32422b;
+}
+
+.profit-card.week .profit-card-profit {
+    background: linear-gradient(135deg, rgba(50, 66, 43, 0.15), rgba(50, 66, 43, 0.08));
+}
+
+.profit-card.week .profit-card-profit-label,
+.profit-card.week .profit-card-profit-amount {
+    color: #263320;
+}
+
+/* This Month's Sales - Coral (#f19c79) */
+.profit-card.month {
+    background: linear-gradient(135deg, #f19c79 0%, #ed8d68 100%);
+    border-color: #e8845e;
+}
+
+.profit-card.month::before {
+    content: '🍁';
+}
+
+.profit-card.month h3,
+.profit-card.month .profit-card-label,
+.profit-card.month small {
+    color: #7a3a20;
+}
+
+.profit-card.month .profit-amount {
+    color: #632f1a;
+}
+
+.profit-card.month .profit-card-profit {
+    background: linear-gradient(135deg, rgba(99, 47, 26, 0.2), rgba(99, 47, 26, 0.1));
+}
+
+.profit-card.month .profit-card-profit-label,
+.profit-card.month .profit-card-profit-amount {
+    color: #4d2515;
+}
+
+/* This Year's Sales - Rust Red (#a44a3f) */
+.profit-card.year {
+    background: linear-gradient(135deg, #a44a3f 0%, #983f35 100%);
+    border-color: #8d372e;
+}
+
+.profit-card.year::before {
+    content: '🍂';
+    opacity: 0.12;
+}
+
+.profit-card.year h3,
+.profit-card.year .profit-card-label,
+.profit-card.year small {
+    color: #ffeae8;
+}
+
+.profit-card.year .profit-amount {
+    color: #ffffff;
+}
+
+.profit-card.year .profit-card-profit {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+}
+
+.profit-card.year .profit-card-profit-label,
+.profit-card.year .profit-card-profit-amount {
+    color: #ffffff;
+}
+
+/* ==========================================
+   POTENTIAL PROFIT CARD (Special Style)
+   ========================================== */
+
+.profit-card.potential {
+    background: linear-gradient(135deg, #493f24 0%, #ffefc0 100%);
+    border-color: #f5e5b809;
+    grid-column: 1 / -1;
+}
+
+.profit-card.potential::before {
+    content: '💎';
+    font-size: 100px;
+}
+
+.profit-card.potential h3 {
+    color: #7a6020;
+}
+
+.profit-card.potential .profit-amount {
+    color: #5a4818;
+    font-size: 36px;
+}
+
+.profit-card.potential small {
+    color: #8a7030;
+}
+
+/* ==========================================
+   RECENT SALES CARDS
+   ========================================== */
+
+.sale-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.04);
+    border: 2px solid rgba(93, 83, 74, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sale-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 8px 20px rgba(0, 0, 0, 0.1),
+        0 2px 6px rgba(0, 0, 0, 0.06);
+    border-color: rgba(93, 83, 74, 0.15);
+}
+
+/* ==========================================
+   CLEAR HISTORY BUTTON
+   ========================================== */
+
+.btn-clear-history {
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #EF4444, #DC2626) !important;
+  color: white !important;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.btn-clear-history:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+  background: linear-gradient(135deg, #DC2626, #B91C1C) !important;
+}
+
+.btn-clear-history:active {
+  transform: translateY(0);
+}
+
+.btn-clear-history:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    background: linear-gradient(135deg, #DC2626, #B91C1C);
+}
+
+.btn-clear-history:active {
+    transform: translateY(0);
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+    .profit-summary {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .profit-amount {
+        font-size: 28px;
+    }
+    
+    .profit-card-profit-amount {
+        font-size: 20px;
+    }
+    
+    .profit-card {
+        padding: 25px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profit-amount {
+        font-size: 24px;
+    }
+    
+    .profit-card-profit-amount {
+        font-size: 18px;
+    }
+}

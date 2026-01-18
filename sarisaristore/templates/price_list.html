@@ -1,0 +1,93 @@
+<!-- price-list.html - All HTML templates for price list functionality -->
+
+<!-- Template: page-header -->
+<template id="template-price-list-page-header">
+  <div style="text-align: center; margin-bottom: 30px;">
+    <h2 style="color: var(--accent); margin-bottom: 10px;">💲 Select Category to Update Prices</h2>
+    <p style="color: var(--brown); font-size: 14px;">Choose a category to view and update product prices</p>
+  </div>
+</template>
+
+<!-- Template: category-card (for price list) -->
+<template id="template-price-category-card">
+  <div class="category-card" data-category="">
+    <div class="category-icon"></div>
+    <h3 class="category-name"></h3>
+    <div class="category-stats">
+      <div class="category-stat">
+        <span class="stat-number"></span>
+        <span class="stat-label">Products</span>
+      </div>
+      <div class="category-stat">
+        <span class="stat-number">₱<span></span></span>
+        <span class="stat-label">Avg Profit</span>
+      </div>
+      <div class="category-stat">
+        <span class="stat-number"></span>
+        <span class="stat-label">Low Margin</span>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!-- Template: category-view-header -->
+<template id="template-price-category-view-header">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+    <button class="btn-back" id="btnBackToPriceCategories">← Back to Categories</button>
+    <h2 style="color: var(--accent); margin: 0;"><span></span> <span></span> - Price List</h2>
+    <div style="width: 150px;"></div>
+  </div>
+</template>
+
+<!-- Template: info-text -->
+<template id="template-price-info-text">
+  <p class="info-text">💡 Click on any price to edit it. Changes are saved automatically.</p>
+</template>
+
+<!-- Template: price-table-header -->
+<template id="template-price-table-header">
+  <table class="price-table">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Cost Price (₱)</th>
+        <th>Selling Price (₱)</th>
+        <th>Profit Margin</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</template>
+
+<!-- Template: price-table-row -->
+<template id="template-price-table-row">
+  <tr class="">
+    <td><strong></strong></td>
+    <td>
+      <input type="number" 
+             value="" 
+             class="price-input price-cost-input"
+             data-product-id=""
+             step="0.01"
+             min="0">
+    </td>
+    <td>
+      <input type="number" 
+             value="" 
+             class="price-input price-sell-input"
+             data-product-id=""
+             step="0.01"
+             min="0">
+    </td>
+    <td class="">
+      ₱<span></span> (<span></span>%)
+    </td>
+    <td><span></span> units</td>
+  </tr>
+</template>
+
+<!-- Template: no-products -->
+<template id="template-price-no-products">
+  <p class="no-data">No products in this category yet. Add products in the Inventory page.</p>
+</template>

@@ -1,0 +1,746 @@
+
+/* === CATEGORY CARDS === */
+
+.category-card {
+
+    background: var(--bg-surface);
+
+    border: 2px solid var(--border-light);
+
+    border-radius: var(--radius-xl);
+
+    padding: var(--space-xl);
+
+    cursor: pointer;
+
+    transition: all var(--transition-base);
+
+    position: relative;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+
+.category-card::before {
+
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 4px;
+
+    background: var(--gradient-revenue);
+
+    opacity: 0;
+
+    transition: opacity var(--transition-base);
+
+}
+
+
+
+.category-card:hover {
+
+    transform: translateY(-4px);
+
+    border-color: var(--primary-300);
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+
+
+.category-card:hover::before {
+
+    opacity: 1;
+
+}
+
+
+
+.category-card:active {
+
+    transform: translateY(-2px);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+
+/* Category Icon */
+
+.category-icon {
+
+    font-size: 3.5rem;
+
+    text-align: center;
+
+    margin-bottom: var(--space-md);
+
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+
+    transition: transform var(--transition-base);
+
+}
+
+
+
+.category-card:hover .category-icon {
+
+    transform: scale(1.1);
+
+}
+
+
+
+/* Category Name */
+
+.category-name {
+
+    text-align: center;
+
+    color: var(--text-primary);
+
+    font-size: var(--font-size-lg);
+
+    font-weight: 700;
+
+    margin-bottom: var(--space-lg);
+
+    min-height: 3rem;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+
+/* Category Stats */
+
+.category-stats {
+
+    display: flex;
+
+    justify-content: space-around;
+
+    padding-top: var(--space-lg);
+
+    border-top: 2px solid var(--border-light);
+
+    gap: var(--space-md);
+
+}
+
+
+
+.category-stat {
+
+    text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: var(--space-xs);
+
+    flex: 1;
+
+}
+
+
+
+.stat-number {
+
+    font-size: var(--font-size-2xl);
+
+    font-weight: 800;
+
+    color: var(--primary-600);
+
+    line-height: 1;
+
+}
+
+
+
+.stat-label {
+
+    font-size: var(--font-size-xs);
+
+    color: var(--text-tertiary);
+
+    text-transform: uppercase;
+
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+
+}
+
+
+
+/* === PERFORMANCE CARDS === */
+
+.profit-overview,
+
+.sales-performance-section {
+
+    background-color: var(--bg-surface);
+
+    padding: var(--space-2xl);
+
+    border-radius: var(--radius-xl);
+
+    box-shadow: var(--shadow-sm);
+
+    margin-bottom: var(--space-xl);
+
+    border: 1px solid var(--border-light);
+
+}
+
+
+
+/* Section Headers */
+
+.section-title {
+
+    font-size: var(--font-size-2xl);
+
+    font-weight: 700;
+
+    color: var(--text-primary);
+
+    margin-bottom: var(--space-sm);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-sm);
+
+}
+
+
+
+.section-subtitle {
+
+    font-size: var(--font-size-sm);
+
+    color: var(--text-secondary);
+
+    margin-bottom: var(--space-xl);
+
+}
+
+
+
+.subsection-header {
+
+    font-size: var(--font-size-lg);
+
+    font-weight: 600;
+
+    color: var(--text-primary);
+
+    margin: var(--space-xl) 0 var(--space-md);
+
+    display: flex;
+
+    align-items: center;
+
+    gap: var(--space-sm);
+
+}
+
+
+
+/* Cards Grid */
+
+.cards-grid,
+
+.sales-cards-grid,
+
+.profit-summary {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: var(--space-lg);
+
+    margin-bottom: var(--space-xl);
+
+}
+
+
+
+/* Base Performance Card */
+
+.card,
+
+.sales-card,
+
+.stat-card,
+
+.profit-card {
+
+    padding: var(--space-xl);
+
+    border-radius: var(--radius-lg);
+
+    transition: all var(--transition-base);
+
+    position: relative;
+
+    overflow: hidden;
+
+    border: 2px solid transparent;
+
+    box-shadow: var(--shadow-sm);
+
+}
+
+
+
+.card::after,
+
+.sales-card::after,
+
+.stat-card::after,
+
+.profit-card::after {
+
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 100%;
+
+    background: linear-gradient(135deg,
+
+        rgba(255,255,255,0.3) 0%,
+
+        rgba(255,255,255,0) 50%);
+
+    pointer-events: none;
+
+}
+
+
+
+.card:hover,
+
+.sales-card:hover,
+
+.stat-card:hover,
+
+.profit-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+
+
+/* Revenue Card (Light Green) */
+
+.card.revenue,
+
+.sales-card.revenue {
+
+    background: var(--gradient-revenue);
+
+    border-color: var(--primary-200);
+
+}
+
+
+
+.card.revenue .card-label,
+
+.sales-card.revenue .label {
+
+    color: var(--primary-800);
+
+}
+
+
+
+.card.revenue .card-amount,
+
+.sales-card.revenue .amount {
+
+    color: var(--primary-900);
+
+}
+
+
+
+.card.revenue .card-subtitle,
+
+.sales-card.revenue .subtitle {
+
+    color: var(--primary-700);
+
+}
+
+
+
+/* Profit Card (Medium Green) */
+
+.card.profit,
+
+.sales-card.profit {
+
+    background: var(--gradient-profit);
+
+    border-color: var(--primary-300);
+
+}
+
+
+
+.card.profit .card-label,
+
+.sales-card.profit .label {
+
+    color: var(--primary-900);
+
+}
+
+
+
+.card.profit .card-amount,
+
+.sales-card.profit .amount {
+
+    color: var(--primary-950, #052e16);
+
+}
+
+
+
+.card.profit .card-subtitle,
+
+.sales-card.profit .subtitle {
+
+    color: var(--primary-800);
+
+}
+
+
+
+/* Warning/Yesterday Cards (Amber) */
+
+.card.yesterday,
+
+.sales-card.yesterday,
+
+.card.previous {
+
+    background: var(--gradient-warning);
+
+    border-color: var(--warning-200);
+
+}
+
+
+
+.card.yesterday .card-label,
+
+.sales-card.yesterday .label {
+
+    color: var(--warning-800);
+
+}
+
+
+
+.card.yesterday .card-amount,
+
+.sales-card.yesterday .amount {
+
+    color: var(--warning-900);
+
+}
+
+
+
+.card.yesterday .card-subtitle,
+
+.sales-card.yesterday .subtitle {
+
+    color: var(--warning-700);
+
+}
+
+
+
+/* Info Cards (Blue) */
+
+.card.info,
+
+.sales-card.info {
+
+    background: var(--gradient-info);
+
+    border-color: var(--accent-200);
+
+}
+
+
+
+.card.info .card-label,
+
+.sales-card.info .label {
+
+    color: var(--accent-800);
+
+}
+
+
+
+.card.info .card-amount,
+
+.sales-card.info .amount {
+
+    color: var(--accent-900);
+
+}
+
+
+
+/* Card Content */
+
+.card-label,
+
+.sales-card .label {
+
+    font-size: var(--font-size-xs);
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+
+    margin-bottom: var(--space-md);
+
+    opacity: 0.9;
+
+}
+
+
+
+.card-amount,
+
+.sales-card .amount,
+
+.card-value,
+
+.profit-amount {
+
+    font-size: var(--font-size-4xl);
+
+    font-weight: 800;
+
+    margin-bottom: var(--space-sm);
+
+    line-height: 1;
+
+    /* Color controlled by individual period sections in main CSS */
+
+}
+
+
+
+.card-subtitle,
+
+.sales-card .subtitle,
+
+.card-description {
+
+    font-size: var(--font-size-sm);
+
+    font-weight: 500;
+
+    opacity: 0.85;
+
+}
+
+
+
+/* === INVENTORY STATS === */
+
+.inventory-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+    gap: var(--space-lg);
+
+    margin-bottom: var(--space-xl);
+
+}
+
+
+
+.stat-box {
+
+    background: var(--bg-surface);
+
+    border: 2px solid var(--border-light);
+
+    border-radius: var(--radius-lg);
+
+    padding: var(--space-lg);
+
+    text-align: center;
+
+    transition: all var(--transition-base);
+
+}
+
+
+
+.stat-box:hover {
+
+    border-color: var(--primary-300);
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+
+.stat-box .stat-label {
+
+    display: block;
+
+    font-size: var(--font-size-sm);
+
+    color: var(--text-secondary);
+
+    font-weight: 600;
+
+    margin-bottom: var(--space-sm);
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+
+}
+
+
+
+.stat-box .stat-value {
+
+    display: block;
+
+    font-size: var(--font-size-3xl);
+
+    font-weight: 800;
+
+    color: var(--primary-600);
+
+}
+
+
+
+/* === DARK MODE ADJUSTMENTS === */
+
+body.dark-mode .category-card,
+
+body.dark-mode .card,
+
+body.dark-mode .sales-card,
+
+body.dark-mode .stat-card,
+
+body.dark-mode .profit-card,
+
+body.dark-mode .stat-box {
+
+    box-shadow: var(--shadow-md);
+
+}
+
+
+
+body.dark-mode .category-card:hover,
+
+body.dark-mode .card:hover,
+
+body.dark-mode .sales-card:hover,
+
+body.dark-mode .stat-card:hover,
+
+body.dark-mode .profit-card:hover {
+
+    box-shadow: var(--shadow-xl);
+
+}
+
+
+
+/* === RESPONSIVE === */
+
+@media (max-width: 768px) {
+
+    .cards-grid,
+
+    .sales-cards-grid,
+
+    .profit-summary {
+
+        grid-template-columns: 1fr;
+
+    }
+
+   
+
+    .card-amount,
+
+    .sales-card .amount,
+
+    .profit-amount {
+
+        font-size: var(--font-size-3xl);
+
+    }
+
+   
+
+    .category-icon {
+
+        font-size: 3rem;
+
+    }
+
+} 

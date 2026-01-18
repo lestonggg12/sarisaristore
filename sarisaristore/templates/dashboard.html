@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏪</text></svg>">
+    
+    <link href="{% static 'css/reset.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/badges.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/cards.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/darkmode.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/navigations.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/pages.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/product.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/utilities.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/variables.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/cart-system.css' %}" rel="stylesheet" />
+    <title>Store Dashboard</title>
+</head>
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand">Joram's Wholesale and Retail Store</div>
+        <div class="nav-links">
+            <button id="btnProfit" class="active">📊 SALES</button>
+            <button id="btnPrice">💲 PRICES</button>
+            <button id="btnInventory">📦 INVENTORY</button>
+            <button id="btnDebt">🧾 DEBTORS</button>
+            <button id="btnSettings">⚙️ SETTINGS</button>
+            <a href="{% url 'logout' %}" style="text-decoration: none;">
+                <button class="btn-logout">🚪 Logout</button>
+            </a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+        <section id="profitPage" class="page active-page">
+            <div id="profitContent"></div>
+        </section>
+
+        <section id="pricePage" class="page">
+            <div id="priceListContent"></div>
+        </section>
+
+        <section id="inventoryPage" class="page">
+            <div id="inventoryContent"></div>
+        </section>
+
+        <section id="debtPage" class="page">
+            <h1 class="main-page-header">Debtors Management</h1>
+            <div id="debtorsContent"></div>
+        </section>
+
+        <section id="settingsPage" class="page">
+            <h1 class="main-page-header">Store Settings</h1>
+            <div id="settingsContent" class="settings-grid"></div>
+        </section>
+    </main>
+
+    <!-- FLOATING CART BUTTON -->
+    <div id="floatingCart" class="floating-cart">
+        🛒<span id="cartCount" class="cart-count">0</span>
+    </div>
+
+    <!-- CART PANEL -->
+    <aside id="searchPanel" class="search-panel" style="
+        display: none;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    ">
+        <div class="search-panel-header">
+            <h2>🛒 Shopping Cart</h2>
+            <button class="btn-close-panel" onclick="toggleCartPanel()">✕</button>
+        </div>
+
+        <div class="search-section">
+            <div class="search-input-wrapper">
+                <input 
+                    type="text" 
+                    id="generalSearch" 
+                    class="search-input" 
+                    placeholder="🔍 Search products..."
+                    autocomplete="off"
+                />
+                <button class="clear-search-btn" onclick="clearSearch()" title="Clear search">✕</button>
+            </div>
+            <div id="searchResults" class="search-results"></div>
+        </div>
+
+        <div class="cart-section">
+            <div id="cartItems" class="cart-items">
+                <p class="empty-cart">🛒 Cart is empty<br><small>Search and click products to add</small></p>
+            </div>
+            
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total:</strong>
+                    <span>₱<span id="cartTotal">0.00</span></span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <script src="{% static 'js/database.js' %}"></script>
+    <script src="{% static 'js/dark-mode.js' %}"></script>
+    <script src="{% static 'js/dialog-system.js' %}"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+    <script src="{% static 'js/inventory.js' %}"></script>
+    <script src="{% static 'js/profit.js' %}"></script>
+    <script src="{% static 'js/settings.js' %}"></script>
+    <script src="{% static 'js/price_list.js' %}"></script>
+    <script src="{% static 'js/debtors.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+</body>
+</html>
