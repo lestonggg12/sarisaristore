@@ -70,8 +70,9 @@ Alternatively, use **Terminal → Run Task** to run common commands with a singl
 3. [Open the project in VS Code](#open-the-project-in-vs-code)
 4. [Local development setup](#local-development-setup)
 5. [How Railway auto-deploys your changes](#how-railway-auto-deploys-your-changes)
-6. [Project structure](#project-structure)
-7. [Environment variables reference](#environment-variables-reference)
+6. [Check if your local files match GitHub](#check-if-your-local-files-match-github)
+7. [Project structure](#project-structure)
+8. [Environment variables reference](#environment-variables-reference)
 
 ---
 
@@ -195,6 +196,60 @@ railway login
 railway link          # link this folder to your Railway project
 railway logs --tail   # stream live logs
 ```
+
+---
+
+## Check if your local files match GitHub
+
+> **Question:** "How do I know if the files in VS Code are the same as the files on GitHub?"
+
+There are two ways — a graphical way inside VS Code, and a terminal way.
+
+### Option A — VS Code Source Control panel (no commands needed)
+
+1. Click the **Source Control icon** in the left sidebar (the icon that looks like a branching tree, or press **Ctrl+Shift+G**).
+2. At the top of the panel, click the **⋯ (three-dot menu)** → **Pull, Push** → **Fetch**.
+3. After fetching, VS Code shows:
+   - Files with a **M** badge → modified locally (different from your last commit).
+   - Files with a **U** badge → new local files not yet on GitHub.
+   - Files with a **D** badge → deleted locally but still on GitHub.
+   - Files with a **C** badge → merge conflict (needs manual resolution).
+   - No badges → your files are identical to GitHub. ✅
+4. To bring your local files up to date with GitHub, click **⋯** → **Pull**.
+
+### Option B — terminal commands
+
+Open the VS Code terminal (**Terminal → New Terminal**) and run:
+
+```bash
+# Step 1 – see if you have any unsaved/uncommitted local changes
+git status
+```
+
+- `nothing to commit, working tree clean` → your files match your last commit.
+- Any listed files → those files differ from your last commit.
+
+```bash
+# Step 2 – download the latest info from GitHub (does NOT change your files yet)
+git fetch origin
+```
+
+```bash
+# Step 3 – compare your local branch with the GitHub version
+git status
+```
+
+After `git fetch`, `git status` will say one of:
+- `Your branch is up to date with 'origin/main'` → **your files are the same as GitHub** ✅
+- `Your branch is behind 'origin/main' by N commits` → GitHub has newer changes; run `git pull` to download them.
+- `Your branch is ahead of 'origin/main' by N commits` → you have local changes not yet pushed to GitHub.
+
+```bash
+# Step 4 – update your local files to match GitHub
+git pull origin main
+```
+
+> **Tip:** If `git pull` says `Already up to date`, your files are already identical to GitHub.
 
 ---
 
