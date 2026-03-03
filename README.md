@@ -12,6 +12,8 @@ Live URL: **https://sarisaristore-production-2fa3.up.railway.app**
 >
 > **Answer: continue in your current terminal.** Open the *existing* project folder — do **not** create a new blank file.
 
+### First time on this computer
+
 ```bash
 # In your existing terminal — run these commands one by one:
 
@@ -20,7 +22,37 @@ cd sarisaristore                                              # enter the folder
 code .                                                        # open VS Code HERE
 ```
 
-After `code .` launches VS Code:
+### Already cloned? Getting "destination path already exists"?
+
+If you see this error:
+
+```
+fatal: destination path 'sarisaristore' already exists and is not an empty directory.
+```
+
+It means the folder is **already on your computer**. You don't need to clone again — just enter the folder and open it:
+
+```bash
+cd sarisaristore   # enter the existing folder
+code .             # open VS Code HERE
+```
+
+If you're not sure which directory you're in, run `pwd` (Mac/Linux) or `cd` with no arguments (Windows) to see your current path. If the `sarisaristore` folder is in a different location, adjust the path accordingly:
+
+```bash
+# Mac / Linux / Git Bash
+cd ~/sarisaristore
+code .
+```
+
+```powershell
+# Windows PowerShell or Command Prompt
+cd C:\Users\Student\sarisaristore
+code .
+```
+
+### After VS Code opens
+
 1. VS Code opens the project folder — you can see all the files in the left panel.
 2. Accept the *"Install recommended extensions"* pop-up.
 3. Open VS Code's built-in terminal: **Terminal → New Terminal** (or `` Ctrl+` ``).
