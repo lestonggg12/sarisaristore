@@ -62,9 +62,15 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sarisaristore.sarisaristore.wsgi.application'
-# Database (use DATABASE_URL if present, else fallback to SQLite)
+# Database (use DATABASE_URL if present and reachable, else fallback to SQLite)
 DATABASE_URL = config('DATABASE_URL', default='')
-if DATABASE_URL:
+# Railway's private hostname (*.railway.internal) is only resolvable inside
+# Railway's network.  If the URL references that host but we are NOT running
+# inside Railway (i.e. RAILWAY_ENVIRONMENT is absent), ignore it so that
+# local `manage.py migrate` falls back to SQLite instead of crashing.
+is_railway_env = bool(os.environ.get('RAILWAY_ENVIRONMENT'))
+is_railway_internal_url = 'railway.internal' in DATABASE_URL
+if DATABASE_URL and (not is_railway_internal_url or is_railway_env):
     DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 else:
     DATABASES = {'default': {
