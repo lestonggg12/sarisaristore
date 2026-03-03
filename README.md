@@ -39,12 +39,23 @@ cd sarisaristore
 code .
 ```
 
-Recommended VS Code extensions (install from the Extensions panel):
+As soon as VS Code opens it will show a pop-up:
+> *"Do you want to install the recommended extensions for this repository?"*
 
-- **Python** (`ms-python.python`) — syntax highlighting, IntelliSense, debugging
-- **Django** (`batisteo.vscode-django`) — template syntax and snippets
-- **GitLens** (`eamodio.gitlens`) — visualise git history inline
-- **Pylance** (`ms-python.vscode-pylance`) — fast type checking
+Click **Install** — this installs the extensions listed in `.vscode/extensions.json`:
+
+| Extension | Purpose |
+|-----------|---------|
+| `ms-python.python` | Python syntax, IntelliSense |
+| `ms-python.vscode-pylance` | Fast type checking |
+| `ms-python.debugpy` | Debugger (required for F5 launch) |
+| `batisteo.vscode-django` | Django template syntax & snippets |
+| `eamodio.gitlens` | Visualise git history inline |
+
+### Select the Python interpreter
+
+1. Press **Ctrl+Shift+P** (or **Cmd+Shift+P** on Mac) → type *"Python: Select Interpreter"*
+2. Choose the interpreter inside your `venv/` folder (e.g. `./venv/bin/python`)
 
 ---
 
@@ -74,9 +85,19 @@ python manage.py runserver
 
 The app will be available at **http://127.0.0.1:8000**.
 
-> **Tip – live reload in VS Code:** The Django development server already reloads
-> automatically whenever you save a `.py` file.  For static files (JS/CSS), just
-> hard-refresh the browser (Ctrl+Shift+R / Cmd+Shift+R).
+### Run and debug with VS Code (F5)
+
+The `.vscode/launch.json` file pre-configures a one-click Django launch:
+
+1. Make sure you have created and activated the virtual environment (step 1 above).
+2. Press **F5** (or click the green ▶ button in the Run & Debug panel).
+3. VS Code starts `manage.py runserver` with the debugger attached.
+4. Open **http://127.0.0.1:8000** in your browser.
+5. **Set breakpoints** by clicking to the left of any line number — the server pauses there.
+
+> **Tip – live reload:** The Django development server automatically restarts whenever
+> you save a `.py` file. For static files (JS/CSS), hard-refresh the browser
+> (Ctrl+Shift+R / Cmd+Shift+R).
 
 ---
 
@@ -129,6 +150,10 @@ sarisaristore/
 ├── start.sh                # Entrypoint: collectstatic → migrate → gunicorn
 ├── railway.json            # Railway build/deploy config
 ├── .env.example            # Template — copy to .env for local development
+├── .vscode/
+│   ├── extensions.json     # Recommended extensions (VS Code installs on open)
+│   ├── settings.json       # Interpreter path, envFile, Django settings module
+│   └── launch.json         # F5 debug launch config for Django runserver
 └── sarisaristore/
     ├── sarisaristore/
     │   ├── settings.py     # Django settings (reads from .env / Railway env vars)
