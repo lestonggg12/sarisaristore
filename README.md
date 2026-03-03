@@ -251,6 +251,33 @@ git pull origin main
 
 > **Tip:** If `git pull` says `Already up to date`, your files are already identical to GitHub.
 
+### ❗ "Your local changes would be overwritten by merge" error
+
+If `git pull` shows this error:
+
+```
+error: Your local changes to the following files would be overwritten by merge:
+        .env.example
+Please commit your changes or stash them before you merge.
+Aborting
+```
+
+It means you have locally edited `.env.example`, but the repository has a newer version of it.  
+**`.env.example` is only a template — your real settings belong in `.env`**, not in `.env.example`.
+
+Fix it in two steps:
+
+```powershell
+# Step 1 – discard your local changes to .env.example (safe — your .env is untouched)
+git checkout -- .env.example
+
+# Step 2 – pull again
+git pull origin main
+```
+
+> **Why is this safe?** Your actual secrets live in `.env`, which git never tracks. `.env.example`
+> is just a blank template. Resetting it to the repo version does **not** affect your running app.
+
 ---
 
 ## Project structure
