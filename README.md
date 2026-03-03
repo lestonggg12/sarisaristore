@@ -1,0 +1,163 @@
+# Sari-Sari Store
+
+A Django-based inventory and point-of-sale web app deployed on [Railway](https://railway.app).
+
+Live URL: **https://sarisaristore-production-2fa3.up.railway.app**
+
+---
+
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Open the project in VS Code](#open-the-project-in-vs-code)
+3. [Local development setup](#local-development-setup)
+4. [How Railway auto-deploys your changes](#how-railway-auto-deploys-your-changes)
+5. [Project structure](#project-structure)
+6. [Environment variables reference](#environment-variables-reference)
+
+---
+
+## Prerequisites
+
+| Tool | Why you need it |
+|------|----------------|
+| [Git](https://git-scm.com/) | Clone the repo and push changes |
+| [Python 3.12+](https://www.python.org/) | Run Django locally |
+| [VS Code](https://code.visualstudio.com/) | Recommended editor |
+| [Railway CLI](https://docs.railway.app/develop/cli) *(optional)* | Stream live logs from the terminal |
+
+---
+
+## Open the project in VS Code
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/lestonggg12/sarisaristore.git
+cd sarisaristore
+
+# 2. Open VS Code in the project folder
+code .
+```
+
+Recommended VS Code extensions (install from the Extensions panel):
+
+- **Python** (`ms-python.python`) — syntax highlighting, IntelliSense, debugging
+- **Django** (`batisteo.vscode-django`) — template syntax and snippets
+- **GitLens** (`eamodio.gitlens`) — visualise git history inline
+- **Pylance** (`ms-python.vscode-pylance`) — fast type checking
+
+---
+
+## Local development setup
+
+```bash
+# 1. Create and activate a virtual environment
+python -m venv venv
+# macOS / Linux:
+source venv/bin/activate
+# Windows (PowerShell):
+.\venv\Scripts\Activate.ps1
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Copy the example env file and fill in your values
+cp .env.example .env
+# Edit .env with your favourite editor — see "Environment variables" below.
+
+# 4. Apply database migrations
+python manage.py migrate
+
+# 5. Start the development server
+python manage.py runserver
+```
+
+The app will be available at **http://127.0.0.1:8000**.
+
+> **Tip – live reload in VS Code:** The Django development server already reloads
+> automatically whenever you save a `.py` file.  For static files (JS/CSS), just
+> hard-refresh the browser (Ctrl+Shift+R / Cmd+Shift+R).
+
+---
+
+## How Railway auto-deploys your changes
+
+Railway watches the **GitHub repository** and triggers a new deployment every time
+you push a commit to the connected branch (usually `main`).
+
+```
+Edit file in VS Code
+       │
+       ▼
+git add . && git commit -m "my change"
+       │
+       ▼
+git push origin main          ← triggers Railway build automatically
+       │
+       ▼
+Railway pulls the new commit, runs:
+  1. docker build (Dockerfile)
+  2. python manage.py collectstatic --noinput
+  3. python manage.py migrate
+  4. gunicorn … (serves the app)
+       │
+       ▼
+Live at https://sarisaristore-production-2fa3.up.railway.app  ✅
+```
+
+**To watch the deployment in real time:**
+
+1. Open the [Railway dashboard](https://railway.app/dashboard) → select your project → click **Deployments**.
+2. Click the active deployment to see build and runtime logs live.
+3. Or, from your terminal with the Railway CLI:
+
+```bash
+railway login
+railway link          # link this folder to your Railway project
+railway logs --tail   # stream live logs
+```
+
+---
+
+## Project structure
+
+```
+sarisaristore/
+├── manage.py
+├── requirements.txt
+├── Dockerfile              # Docker build used by Railway
+├── start.sh                # Entrypoint: collectstatic → migrate → gunicorn
+├── railway.json            # Railway build/deploy config
+├── .env.example            # Template — copy to .env for local development
+└── sarisaristore/
+    ├── sarisaristore/
+    │   ├── settings.py     # Django settings (reads from .env / Railway env vars)
+    │   ├── urls.py
+    │   └── wsgi.py
+    ├── store/              # Main app (models, views, API)
+    ├── static/             # Source static files (JS, CSS, images)
+    ├── staticfiles/        # Collected statics — do NOT edit directly
+    └── templates/          # HTML templates
+```
+
+---
+
+## Environment variables reference
+
+Copy `.env.example` to `.env` for local development.  
+For production, set these as **Environment Variables** in the Railway dashboard
+(Settings → Variables) — never commit a real `.env` file.
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `DJANGO_SECRET_KEY` | ✅ | Random secret string — generate locally: `python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"` |
+| `DEBUG` | | `True` locally, `False` in production (default: `True`) |
+| `ALLOWED_HOSTS` | | Comma-separated hostnames (default: `localhost,127.0.0.1`) |
+| `DATABASE_URL` | | PostgreSQL URL from Railway. Omit to use SQLite locally. |
+
+### Setting variables on Railway
+
+1. Go to your project in the [Railway dashboard](https://railway.app/dashboard).
+2. Click **Variables** in the left sidebar.
+3. Add each variable (e.g. `DJANGO_SECRET_KEY`, `DATABASE_URL`).
+4. Railway will automatically redeploy when variables change.
