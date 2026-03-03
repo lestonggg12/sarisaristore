@@ -6,14 +6,40 @@ Live URL: **https://sarisaristore-production-2fa3.up.railway.app**
 
 ---
 
+## ⚡ Quick Start (read this first)
+
+> **Question:** "Should I open a new blank file in VS Code, or continue in my current terminal?"
+>
+> **Answer: continue in your current terminal.** Open the *existing* project folder — do **not** create a new blank file.
+
+```bash
+# In your existing terminal — run these commands one by one:
+
+git clone https://github.com/lestonggg12/sarisaristore.git   # download the project
+cd sarisaristore                                              # enter the folder
+code .                                                        # open VS Code HERE
+```
+
+After `code .` launches VS Code:
+1. VS Code opens the project folder — you can see all the files in the left panel.
+2. Accept the *"Install recommended extensions"* pop-up.
+3. Open VS Code's built-in terminal: **Terminal → New Terminal** (or `` Ctrl+` ``).
+4. Continue the setup steps in that terminal (create venv, install packages, etc.).
+
+Alternatively, use **Terminal → Run Task** to run common commands with a single click
+(no terminal typing required — see `.vscode/tasks.json`).
+
+---
+
 ## Table of Contents
 
-1. [Prerequisites](#prerequisites)
-2. [Open the project in VS Code](#open-the-project-in-vs-code)
-3. [Local development setup](#local-development-setup)
-4. [How Railway auto-deploys your changes](#how-railway-auto-deploys-your-changes)
-5. [Project structure](#project-structure)
-6. [Environment variables reference](#environment-variables-reference)
+1. [Quick Start](#-quick-start-read-this-first)
+2. [Prerequisites](#prerequisites)
+3. [Open the project in VS Code](#open-the-project-in-vs-code)
+4. [Local development setup](#local-development-setup)
+5. [How Railway auto-deploys your changes](#how-railway-auto-deploys-your-changes)
+6. [Project structure](#project-structure)
+7. [Environment variables reference](#environment-variables-reference)
 
 ---
 
@@ -153,7 +179,8 @@ sarisaristore/
 ├── .vscode/
 │   ├── extensions.json     # Recommended extensions (VS Code installs on open)
 │   ├── settings.json       # Interpreter path, envFile, Django settings module
-│   └── launch.json         # F5 debug launch config for Django runserver
+│   ├── launch.json         # F5 debug launch config for Django runserver
+│   └── tasks.json          # Terminal → Run Task shortcuts (runserver, migrate, …)
 └── sarisaristore/
     ├── sarisaristore/
     │   ├── settings.py     # Django settings (reads from .env / Railway env vars)
