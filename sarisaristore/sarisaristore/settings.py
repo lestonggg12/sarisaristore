@@ -12,6 +12,11 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # Allowed Hosts
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1').split(',')
 
+# Automatically trust the Railway-assigned public domain (Railway injects this env var)
+railway_public_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
+if railway_public_domain and railway_public_domain not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(railway_public_domain)
+
 # Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -84,6 +89,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STORAGES = {
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -109,6 +119,11 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
+# Also trust any Railway-assigned public domain
+if railway_public_domain:
+    _railway_origin = f"https://{railway_public_domain}"
+    if _railway_origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(_railway_origin)
 
 # Security settings for production
 if not DEBUG:
