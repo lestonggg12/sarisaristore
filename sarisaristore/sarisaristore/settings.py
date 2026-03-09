@@ -14,8 +14,6 @@ is_railway_env = bool(os.environ.get('RAILWAY_ENVIRONMENT'))
 railway_public_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN', '')
 
 if is_railway_env:
-    # Railway sits behind its own proxy; allow all hosts so internal
-    # health-checks and the public domain both work.
     ALLOWED_HOSTS = ['*']
 else:
     ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,192.168.1.155').split(',')
@@ -36,7 +34,7 @@ INSTALLED_APPS = [
     'sarisaristore.store',
 ]
 
-# Static file finders for django-compressor
+# Static file finders
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -62,6 +60,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'sarisaristore.sarisaristore.urls'
+
 # Templates
 TEMPLATES = [
     {
@@ -80,12 +79,9 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sarisaristore.sarisaristore.wsgi.application'
-# Database (use DATABASE_URL if present and reachable, else fallback to SQLite)
+
+# Database
 DATABASE_URL = config('DATABASE_URL', default='')
-# Railway's private hostname (*.railway.internal) is only resolvable inside
-# Railway's network.  If the URL references that host but we are NOT running
-# inside Railway (i.e. RAILWAY_ENVIRONMENT is absent), ignore it so that
-# local `manage.py migrate` falls back to SQLite instead of crashing.
 is_railway_internal_url = 'railway.internal' in DATABASE_URL
 if DATABASE_URL and (not is_railway_internal_url or is_railway_env):
     DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
@@ -112,24 +108,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-if not DEBUG:
-    CDN_STATIC_URL = 'https://your-cdn-domain.com/static/'  # Replace with your CDN URL
-    STATIC_URL = CDN_STATIC_URL
-    STORAGES = {
-        'staticfiles': {
-            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
-        },
-    }
-else:
-    STATIC_URL = '/static/'
-    STORAGES = {
-        'staticfiles': {
-            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-        },
-    }
+STORAGES = {
+    'staticfiles': {
+        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+    },
+}
 
-# WhiteNoise settings for optimal static file caching
-WHITENOISE_MAX_AGE = 31536000  # 1 year
+# WhiteNoise settings
+WHITENOISE_MAX_AGE = 31536000
 WHITENOISE_AUTOREFRESH = False
 WHITENOISE_USE_FINDERS = False
 WHITENOISE_ALLOW_ALL_ORIGINS = True
@@ -142,26 +128,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CORS configuration
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "http://192.168.1.155:8000",
-        "http://192.168.1.22:8000",
-    ]
 else:
     CORS_ALLOW_ALL_ORIGINS = False
     CORS_ALLOWED_ORIGINS = [
-        # Add actual allowed origins for production below
-        "https://your.production.domain",
-        "https://sarisaristore-production-2fa3.up.railway.app",
+        "https://joramsstore.up.railway.app",
     ]
 
+# CSRF
 CSRF_TRUSTED_ORIGINS = [
-    "https://sarisaristore-production-2fa3.up.railway.app",
+    "https://joramsstore.up.railway.app",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
 ]
-# Also trust any Railway-assigned public domain
 if railway_public_domain:
     _railway_origin = f"https://{railway_public_domain}"
     if _railway_origin not in CSRF_TRUSTED_ORIGINS:
