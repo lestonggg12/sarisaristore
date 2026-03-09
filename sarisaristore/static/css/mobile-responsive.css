@@ -667,6 +667,84 @@ div[style*="grid-template-columns: 2fr 1fr 1fr 1fr auto"] > button {
     .cart-count {
         top: -5px;
         right: -5px;
+
+/* ===============================
+   ORIENTATION & DEVICE QUERIES
+   =============================== */
+
+/* Portrait mode adjustments for mobile and tablet */
+@media (orientation: portrait) {
+    .card, .category-card-modern, .dashboard-card {
+        width: 95vw !important;
+        max-width: 480px !important;
+        margin: 0 auto 16px auto !important;
+    }
+    .dashboard-title, .card-title, .category-title {
+        font-size: 1.2rem !important;
+        text-align: center !important;
+    }
+    .dashboard-content, .card-content {
+        padding: 1rem !important;
+    }
+    .responsive-text {
+        font-size: 1rem !important;
+    }
+}
+
+/* Landscape mode adjustments for mobile and tablet */
+@media (orientation: landscape) {
+    .card, .category-card-modern, .dashboard-card {
+        width: 70vw !important;
+        max-width: 700px !important;
+        margin: 0 auto 12px auto !important;
+    }
+    .dashboard-title, .card-title, .category-title {
+        font-size: 1.4rem !important;
+        text-align: left !important;
+    }
+    .dashboard-content, .card-content {
+        padding: 0.75rem 2rem !important;
+    }
+    .responsive-text {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* iOS-specific adjustments */
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) {
+    .card, .category-card-modern {
+        border-radius: 18px !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .dashboard-title {
+        letter-spacing: 0.02em !important;
+    }
+}
+
+/* Android-specific adjustments */
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+    .card, .category-card-modern {
+        border-radius: 14px !important;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.10);
+    }
+    .dashboard-title {
+        font-weight: 700 !important;
+    }
+}
+
+/* Tablet-specific adjustments */
+@media (min-width: 600px) and (max-width: 1200px) {
+    .card, .category-card-modern, .dashboard-card {
+        width: 80vw !important;
+        max-width: 700px !important;
+    }
+    .dashboard-title, .card-title {
+        font-size: 1.5rem !important;
+    }
+    .dashboard-content, .card-content {
+        padding: 2rem !important;
+    }
+}
         width: 22px;
         height: 22px;
         font-size: 11px;
