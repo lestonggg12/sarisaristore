@@ -33,6 +33,7 @@ let notificationDropdownOpen = false;
 let notificationData = {
     lowStock: [],
     lowMargin: [],
+    outOfStock: [],
     settingsChanges: [],
     lastUpdated: null
 };
@@ -132,9 +133,15 @@ async function refreshNotifications() {
             console.log('☁️ Settings (+ change history) synced from server');
         }
 
-        // ── Low stock alerts from product database ─────────────────────────
+
+        // ── Low stock and out of stock alerts from product database ───────
         const products      = await DB.getProducts();
         const lowStockLimit = window.storeSettings?.lowStockLimit || 10;
+
+        notificationData.outOfStock = products.filter(p => {
+            const qty = parseFloat(p.quantity || p.stock || 0);
+            return qty === 0;
+        });
 
         notificationData.lowStock = products.filter(p => {
             const qty = parseFloat(p.quantity || p.stock || 0);
@@ -179,7 +186,7 @@ function updateNotificationBadge() {
     const badge = document.getElementById('notificationBadge');
     if (!badge) return;
 
-    const total = notificationData.lowStock.length + notificationData.lowMargin.length + notificationData.settingsChanges.length;
+    const total = notificationData.lowStock.length + notificationData.lowMargin.length + notificationData.outOfStock.length + notificationData.settingsChanges.length;
 
     if (total > 0) {
         badge.textContent = total > 99 ? '99+' : total;
@@ -321,7 +328,59 @@ function renderNotificationDropdown() {
         html += '</div>';
     }
 
-    // Low Stock
+
+    // Out of Stock Alerts
+    html += `
+        <div class="notification-section">
+            <div class="section-header">
+                <span class="section-icon">⛔</span>
+                <span class="section-title">Out of Stock Alerts</span>
+                <span class="section-count">${notificationData.outOfStock.length}</span>
+            </div>
+    `;
+    if (notificationData.outOfStock.length === 0) {
+        html += `
+            <div class="empty-state">
+                <span class="empty-icon">✅</span>
+                <p>No products are out of stock!</p>
+            </div>
+        `;
+    } else {
+        html += '<div class="notification-list">';
+        notificationData.outOfStock.slice(0, 10).forEach((product) => {
+            const category = window.CATEGORIES?.find(c => c.id === (product.category || product.category_id));
+            const categoryIcon = category?.icon || '📦';
+            html += `
+                <div class="notification-item critical" data-product-id="${product.id}">
+                    <div class="item-icon">${categoryIcon}</div>
+                    <div class="item-content">
+                        <div class="item-title">${product.name}</div>
+                        <div class="item-meta">
+                            <span class="urgency-badge">⛔ Out of stock</span>
+                            <span class="category-badge">${category?.name || 'Uncategorized'}</span>
+                        </div>
+                    </div>
+                    <button class="item-action-btn"
+                            onclick="window.NotificationSystem.goToProduct('${product.id}', '${product.category || product.category_id}')">
+                        <span>Restock</span> →
+                    </button>
+                </div>
+            `;
+        });
+        html += '</div>';
+        if (notificationData.outOfStock.length > 10) {
+            html += `
+                <div class="notification-footer">
+                    <button class="view-all-btn" onclick="window.NotificationSystem.goToInventory()">
+                        View all ${notificationData.outOfStock.length} out of stock items →
+                    </button>
+                </div>
+            `;
+        }
+    }
+    html += '</div>';
+
+    // Low Stock Alerts
     html += `
         <div class="notification-section">
             <div class="section-header">
@@ -330,7 +389,6 @@ function renderNotificationDropdown() {
                 <span class="section-count">${notificationData.lowStock.length}</span>
             </div>
     `;
-
     if (notificationData.lowStock.length === 0) {
         html += `
             <div class="empty-state">
@@ -340,17 +398,13 @@ function renderNotificationDropdown() {
         `;
     } else {
         html += '<div class="notification-list">';
-
         notificationData.lowStock.slice(0, 10).forEach((product) => {
             const qty      = parseFloat(product.quantity || product.stock || 0);
             const category = window.CATEGORIES?.find(c => c.id === (product.category || product.category_id));
             const categoryIcon = category?.icon || '📦';
-
             let urgencyClass = 'low', urgencyIcon = '💡';
-            if (qty === 0)     { urgencyClass = 'critical'; urgencyIcon = '🚨'; }
-            else if (qty <= 3) { urgencyClass = 'high';     urgencyIcon = '⚠️'; }
+            if (qty <= 3) { urgencyClass = 'high';     urgencyIcon = '⚠️'; }
             else if (qty <= 5) { urgencyClass = 'medium';   urgencyIcon = '⚡'; }
-
             html += `
                 <div class="notification-item ${urgencyClass}" data-product-id="${product.id}">
                     <div class="item-icon">${categoryIcon}</div>
@@ -368,9 +422,7 @@ function renderNotificationDropdown() {
                 </div>
             `;
         });
-
         html += '</div>';
-
         if (notificationData.lowStock.length > 10) {
             html += `
                 <div class="notification-footer">
@@ -381,7 +433,6 @@ function renderNotificationDropdown() {
             `;
         }
     }
-
     html += '</div>';
 
     // ── Low Margin Alerts ──

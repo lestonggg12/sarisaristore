@@ -129,13 +129,12 @@ body.dark-mode .calendar-header p {
   color: var(--cal-text-muted-dark);
 }
 
-/* ==================== MONTH NAVIGATION - NEOMORPHISM ==================== */
+/* ==================== MONTH NAVIGATION — FIXED CENTERING ==================== */
 .calendar-nav {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 52px 1fr 52px;
   align-items: center;
   margin-bottom: 24px;
-  padding: 0 5px;
   gap: 12px;
 }
 
@@ -193,6 +192,7 @@ body.dark-mode .calendar-nav-btn:active {
     inset -4px -4px 10px rgba(255, 255, 255, 0.03);
 }
 
+/* ── Month title: always centred in the middle grid column ── */
 .calendar-month-title {
   font-size: 1.6rem;
   font-weight: 800;
@@ -200,15 +200,14 @@ body.dark-mode .calendar-nav-btn:active {
   margin: 0;
   letter-spacing: -0.5px;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-  padding: 14px 32px;
+  padding: 14px 20px;
   background: linear-gradient(145deg, #ecf4ea, #dce5da);
   border-radius: 16px;
   box-shadow: 
     inset 3px 3px 8px rgba(0, 0, 0, 0.06),
     inset -3px -3px 8px rgba(255, 255, 255, 0.6);
-  flex: 1;
   text-align: center;
-  max-width: 300px;
+  width: 100%;
 }
 
 body.dark-mode .calendar-month-title {
@@ -1197,6 +1196,7 @@ body.dark-mode .product-profit {
   .calendar-nav {
     margin-bottom: 18px;
     gap: 10px;
+    grid-template-columns: 46px 1fr 46px;
   }
 
   .calendar-nav-btn {
@@ -1208,7 +1208,7 @@ body.dark-mode .product-profit {
 
   .calendar-month-title {
     font-size: 1.25rem;
-    padding: 12px 20px;
+    padding: 12px 16px;
     border-radius: 14px;
   }
 
@@ -1410,6 +1410,7 @@ body.dark-mode .product-profit {
   .calendar-nav {
     margin-bottom: 14px;
     gap: 8px;
+    grid-template-columns: 40px 1fr 40px;
   }
 
   .calendar-nav-btn {
@@ -1421,7 +1422,7 @@ body.dark-mode .product-profit {
 
   .calendar-month-title {
     font-size: 1.05rem;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border-radius: 12px;
   }
 
@@ -1661,6 +1662,11 @@ body.dark-mode .product-profit {
     font-size: 0.7rem;
   }
 
+  .calendar-nav {
+    grid-template-columns: 36px 1fr 36px;
+    gap: 6px;
+  }
+
   .calendar-nav-btn {
     width: 36px;
     height: 36px;
@@ -1670,7 +1676,7 @@ body.dark-mode .product-profit {
 
   .calendar-month-title {
     font-size: 0.95rem;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 10px;
   }
 
