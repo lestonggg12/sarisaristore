@@ -565,16 +565,60 @@ async function deleteDebtor(debtorId) {
     }
 
 
+
+    // If unpaid, find and delete the related credit sale
+    if (!isPaid) {
+      try {
+        const sales = await DB.getSales();
+        const creditSale = sales.find(s =>
+          (s.customer_name || '').toLowerCase() === customerName.toLowerCase() &&
+          (s.payment_method === 'credit' || s.payment_method === 'credit-paid')
+        );
+        if (creditSale) {
+          await DB.apiCall(`/sales/${creditSale.id}/`, 'DELETE');
+          await DB.syncUI && DB.syncUI();
+        }
+      } catch (e) { console.error('Failed to delete related credit sale:', e); }
+    }
+
     await DB.deleteDebtor(debtorId);
     await renderDebtors();
     if (typeof renderProfit === 'function') await renderProfit(); // Refresh recent sales
     if (returnToInventory && typeof renderInventory === 'function') await renderInventory();
 
+    // Add to settings change history and notify
+    if (window.storeSettings) {
+      let updatedHistory = Array.isArray(window.storeSettings.changeHistory)
+        ? [...window.storeSettings.changeHistory]
+        : [];
+      updatedHistory.push({
+        id: Date.now().toString(),
+        timestamp: new Date().toISOString(),
+        changes: {
+          debtDeleted: `Debt deleted for ${customerName} (₱${amount.toFixed(2)}) on ${new Date().toLocaleString('en-PH')}`
+        }
+      });
+      if (updatedHistory.length > 10) updatedHistory = updatedHistory.slice(-10);
+      window.storeSettings.changeHistory = updatedHistory;
+      // Save to server
+      try {
+        await fetch('/api/save-settings/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': (document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1] || '')
+          },
+          body: JSON.stringify({ ...window.storeSettings, changeHistory: updatedHistory })
+        });
+        if (window.NotificationSystem && typeof window.NotificationSystem.onSettingsSaved === 'function') {
+          window.NotificationSystem.onSettingsSaved(updatedHistory[updatedHistory.length - 1]);
+        }
+      } catch (e) { console.error('Failed to save debt deletion to settings history:', e); }
+    }
+
     // Notify in alerts if unpaid debt was deleted
     if (!isPaid) {
       if (window.NotificationSystem && typeof window.NotificationSystem.refresh === 'function') {
-        // Optionally, you can push a custom notification here if your system supports it
-        // For now, just refresh notifications to pick up any changes
         window.NotificationSystem.refresh();
       }
       await showModernAlert(
