@@ -5,4 +5,5 @@ python-decouple
 whitenoise
 djangorestframework
 django-cors-headers
+django-compressor
 psycopg2-binary
