@@ -30,16 +30,29 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'compressor',
     'rest_framework',
     'corsheaders',
-   'sarisaristore.store',
+    'sarisaristore.store',
 ]
+
+# Static file finders for django-compressor
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
+
+# Compressor settings
+COMPRESS_ENABLED = not DEBUG
+COMPRESS_OFFLINE = True
 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -99,11 +112,30 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-STORAGES = {
-    'staticfiles': {
-        'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
-    },
-}
+if not DEBUG:
+    CDN_STATIC_URL = 'https://your-cdn-domain.com/static/'  # Replace with your CDN URL
+    STATIC_URL = CDN_STATIC_URL
+    STORAGES = {
+        'staticfiles': {
+            'BACKEND': 'django.contrib.staticfiles.storage.StaticFilesStorage',
+        },
+    }
+else:
+    STATIC_URL = '/static/'
+    STORAGES = {
+        'staticfiles': {
+            'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
+        },
+    }
+
+# WhiteNoise settings for optimal static file caching
+WHITENOISE_MAX_AGE = 31536000  # 1 year
+WHITENOISE_AUTOREFRESH = False
+WHITENOISE_USE_FINDERS = False
+WHITENOISE_ALLOW_ALL_ORIGINS = True
+
+# GZip compression settings
+GZIP_MIDDLEWARE = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

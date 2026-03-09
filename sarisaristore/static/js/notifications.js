@@ -289,11 +289,12 @@ function renderNotificationDropdown() {
         const recentChanges = notificationData.settingsChanges.slice(-5).reverse();
         recentChanges.forEach(change => {
             const timeAgo = getTimeAgo(new Date(change.timestamp));
+            const isDebtDeleted = change.changes && change.changes.debtDeleted;
             html += `
                 <div class="notification-item settings-change">
-                    <div class="item-icon">⚙️</div>
+                    <div class="item-icon">${isDebtDeleted ? '⛔' : '⚙️'}</div>
                     <div class="item-content">
-                        <div class="item-title">Settings Updated</div>
+                        <div class="item-title">${isDebtDeleted ? 'Debt Deleted' : 'Settings Updated'}</div>
                         <div class="item-meta">
                             <span class="time-badge">🕐 ${timeAgo}</span>
                         </div>

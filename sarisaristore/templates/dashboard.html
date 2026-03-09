@@ -1,4 +1,5 @@
 {% load static %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +15,7 @@
     <link rel="manifest" href="/manifest.json">
 
 
+    {% compress css %}
     <link href="{% static 'css/reset.css' %}?v=20260303" rel="stylesheet" />
     <link href="{% static 'css/variables.css' %}?v=20260225" rel="stylesheet" />
     <link href="{% static 'css/badges.css' %}?v=20260225" rel="stylesheet" />
@@ -27,8 +29,8 @@
     <link href="{% static 'css/mobile-responsive.css' %}?v=20260225" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/cash-payment-modal.css' %}?v=20260225">
     <link href="{% static 'css/glassmorphic-icons.css' %}?v=20260304" rel="stylesheet" />
-    <!-- nav-fix.css MUST be last — it overrides everything above -->
     <link href="{% static 'css/nav-fix.css' %}?v=20260304" rel="stylesheet" />
+    {% endcompress %}
     <style>
                 /* Dark mode: Make green action buttons readable */
                 body.dark-mode .neo-success-btn,

@@ -311,8 +311,16 @@ def debtor_detail(request, pk):
                     print(f'⚠️  PaymentHistory record failed for debtor {updated.pk}: {e}')
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # Delete related 'Credit' sales if debtor is unpaid
+    unpaid_deleted = False
+    if not debtor.paid:
+        Sale.objects.filter(payment_method='credit', customer_name=debtor.name).delete()
+        unpaid_deleted = True
     debtor.delete()
-    return Response({'message': 'Debtor deleted'}, status=status.HTTP_204_NO_CONTENT)
+    return Response({
+        'message': 'Debtor and related credit sales deleted',
+        'unpaid_deleted': unpaid_deleted
+    }, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['DELETE'])
