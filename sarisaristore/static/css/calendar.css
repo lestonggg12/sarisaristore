@@ -206,8 +206,11 @@ body.dark-mode .calendar-nav-btn:active {
   box-shadow: 
     inset 3px 3px 8px rgba(0, 0, 0, 0.06),
     inset -3px -3px 8px rgba(255, 255, 255, 0.6);
-  text-align: center;
+  text-align: center !important;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 body.dark-mode .calendar-month-title {
@@ -217,6 +220,8 @@ body.dark-mode .calendar-month-title {
   box-shadow: 
     inset 3px 3px 8px rgba(0, 0, 0, 0.4),
     inset -3px -3px 8px rgba(255, 255, 255, 0.03);
+  text-align: center !important;
+  justify-content: center;
 }
 
 /* ==================== CALENDAR GRID CONTAINER - NEOMORPHISM ==================== */
