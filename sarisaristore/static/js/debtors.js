@@ -564,16 +564,31 @@ async function deleteDebtor(debtorId) {
       }
     }
 
+
     await DB.deleteDebtor(debtorId);
     await renderDebtors();
+    if (typeof renderProfit === 'function') await renderProfit(); // Refresh recent sales
     if (returnToInventory && typeof renderInventory === 'function') await renderInventory();
 
-    await showModernAlert(
-      returnToInventory
-        ? `Debt record deleted and items returned to inventory!\n\nCustomer: ${customerName}`
-        : `Debt record deleted.\n\nCustomer: ${customerName}`,
-      '✅'
-    );
+    // Notify in alerts if unpaid debt was deleted
+    if (!isPaid) {
+      if (window.NotificationSystem && typeof window.NotificationSystem.refresh === 'function') {
+        // Optionally, you can push a custom notification here if your system supports it
+        // For now, just refresh notifications to pick up any changes
+        window.NotificationSystem.refresh();
+      }
+      await showModernAlert(
+        `Unpaid debt deleted!\n\nCustomer: ${customerName}\nAmount: ₱${amount.toFixed(2)}`,
+        '⛔'
+      );
+    } else {
+      await showModernAlert(
+        returnToInventory
+          ? `Debt record deleted and items returned to inventory!\n\nCustomer: ${customerName}`
+          : `Debt record deleted.\n\nCustomer: ${customerName}`,
+        '✅'
+      );
+    }
 
   } catch (error) {
     console.error('Error deleting debtor:', error);

@@ -621,6 +621,7 @@ div[style*="grid-template-columns: 2fr 1fr 1fr 1fr auto"] > button {
     .summary-card { padding: 20px !important; }
     .card-icon    { font-size: 2rem !important; margin-right: 15px !important; }
     .card-value   { font-size: 1.5rem !important; }
+    .card-value   { font-size: clamp(1.1rem, 1.5rem - 0.1vw * (var(--digit-count, 0) - 6), 2.2rem) !important; max-width: 100%; overflow-x: auto; white-space: nowrap; }
 
     .add-debtor-form        { flex-direction: column !important; }
     .input-with-icon        { min-width: 100% !important; }
@@ -646,6 +647,7 @@ div[style*="grid-template-columns: 2fr 1fr 1fr 1fr auto"] > button {
     .debtor-card    { padding: 15px !important; }
     .debtor-name    { font-size: 1rem !important; }
     .debtor-amount  { font-size: 1.5rem !important; }
+        .debtor-amount  { font-size: clamp(1.1rem, 1.5rem - 0.1vw * (var(--digit-count, 0) - 6), 2.2rem) !important; max-width: 100%; overflow-x: auto; white-space: nowrap; }
     .debtor-actions { flex-direction: column !important; }
     .action-btn     { width: 100%; }
 }
@@ -978,10 +980,11 @@ button,
     body { font-size: 13px; }
 
     .card-value { font-size: 1.3rem !important; }
+    .card-value { font-size: clamp(1.1rem, 1.3rem - 0.1vw * (var(--digit-count, 0) - 6), 2.2rem) !important; max-width: 100%; overflow-x: auto; white-space: nowrap; }
 
     .debtor-amount,
     .total-amount,
-    .subtotal-amount { font-size: 1.2rem !important; }
+    .subtotal-amount { font-size: clamp(1.1rem, 1.2rem - 0.1vw * (var(--digit-count, 0) - 6), 2.2rem) !important; max-width: 100%; overflow-x: auto; white-space: nowrap; }
 
     .modern-btn,
     .action-btn {
